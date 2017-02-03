@@ -24,6 +24,11 @@ public class Monomio {
     public void setExponente(Integer exponente) {
         this.exponente = exponente;
     }
+
+    @Override
+    public String toString() {
+        return coeficiente + " x " + exponente;
+    }
     
     
 }
