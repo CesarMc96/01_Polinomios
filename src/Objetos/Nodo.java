@@ -28,7 +28,7 @@ public class Nodo {
 
     @Override
     public String toString() {
-        return  monomio + " " + siguiente;
+        return  monomio + " + " + siguiente;
     }
     
 }

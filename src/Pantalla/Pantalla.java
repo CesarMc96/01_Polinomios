@@ -3,11 +3,14 @@ package Pantalla;
 import Excepciones.ValoresDiferentesException;
 import Objetos.Lista;
 import Objetos.Monomio;
+import Objetos.Nodo;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
@@ -48,11 +51,11 @@ public class Pantalla extends JFrame {
     private final JPanel pnlEnmedioC;
     private final JLabel lblSimplificar;
     private final JLabel lblSoluciondeX;
-    private final Lista polinomio1;
-    private final Lista polinomio2;
+    private Lista polinomio1;
+    private Lista polinomio2;
 
     public Pantalla() {
-        super.setSize(700, 500);
+        super.setSize(700, 320);
         super.setDefaultCloseOperation(EXIT_ON_CLOSE);
         super.setTitle("Simplificaciones de Funciones");
         super.getContentPane().setBackground(Color.WHITE);
@@ -71,38 +74,13 @@ public class Pantalla extends JFrame {
 
         polinomio1 = new Lista();
         polinomio2 = new Lista();
-        
+
         btnAgregar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                if ((txtCoeficiente.getText() != null) && (!txtCoeficiente.getText().equals(""))) {
-                    if ((txtExponente.getText() != null) && (!txtExponente.getText().equals(""))) {
-                        try {
-                            polinomio1.agregarMonomio(new Monomio(txtCoeficiente.getText(), txtExponente.getText()));
-                            txtCoeficiente.setText("");
-                            txtExponente.setText("");
-                        } catch (ValoresDiferentesException ex) {
-                            Component frame = null;
-                            JOptionPane.showMessageDialog(frame,
-                                    "Caracter no numerico.",
-                                    "ERROR",
-                                    JOptionPane.ERROR_MESSAGE);
-                        }
-                    } else {
-                        Component frame = null;
-                        JOptionPane.showMessageDialog(frame,
-                                "Caja de texto vacia.",
-                                "ERROR",
-                                JOptionPane.ERROR_MESSAGE);
-                    }
-                } else {
-                    Component frame = null;
-                    JOptionPane.showMessageDialog(frame,
-                            "Caja de texto vacia.",
-                            "ERROR",
-                            JOptionPane.ERROR_MESSAGE);
-                }
+                Agregar();
             }
+
         });
 
         pnlArribaA = new JPanel();
@@ -164,7 +142,7 @@ public class Pantalla extends JFrame {
                 }
             }
         });
-        
+
         pnlEnmedioA = new JPanel();
         pnlEnmedioA.add(lblPolinomio2, BorderLayout.PAGE_START);
         pnlEnmedioB = new JPanel();
@@ -173,16 +151,19 @@ public class Pantalla extends JFrame {
         pnlEnmedioB.add(txtExponente2);
         pnlEnmedioB.add(btnAgregar2);
         pnlEnmedioC = new JPanel();
-        pnlEnmedioC.setBackground(Color.yellow);
         lblSimplificar = new JLabel();
         lblSoluciondeX = new JLabel();
         pnlEnmedioC.add(lblSimplificar);
+        pnlEnmedioA.setBackground(Color.white);
+        pnlEnmedioB.setBackground(Color.white);
+        pnlEnmedioB.setBackground(Color.white);
 
         pnlEnmedio.add(pnlEnmedioA, BorderLayout.PAGE_START);
         pnlEnmedio.add(pnlEnmedioB, BorderLayout.CENTER);
         pnlEnmedio.add(pnlEnmedioC, BorderLayout.PAGE_END);
 
-        pnlEnmedio.setVisible(false);
+        pnlEnmedioA.setVisible(false);
+        pnlEnmedioB.setVisible(false);
         super.add(pnlEnmedio, BorderLayout.CENTER);
 
         //***************************************
@@ -201,16 +182,15 @@ public class Pantalla extends JFrame {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 polinomio1.recorrerLista();
+                polinomio2.recorrerLista();
             }
         });
-        
+
         btnSimplificar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                polinomio1.ordenarPorExponente();
-                polinomio1.simplificar();
-                polinomio1.recorrerLista();
-                lblSimplificar.setText(polinomio1.toString());
+                lblSimplificar.setText(simpli());
+                System.out.println(simpli());
             }
         });
 
@@ -235,16 +215,86 @@ public class Pantalla extends JFrame {
         btnInsertarOtroPolinomio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                pnlEnmedio.setVisible(true);
+                pnlEnmedioA.setVisible(true);
+                pnlEnmedioB.setVisible(true);
                 btnInsertarOtroPolinomio.setVisible(false);
                 pnlAbajoB.setVisible(true);
             }
         });
 
+        btnSumarPolinomios.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                polinomio1.sumarPolinomios(polinomio2);
+                lblSimplificar.setText(polinomio1.toString());
+            }
+        });
+
+        btnRestarPolinomios.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    polinomio1.restarPolinomios(polinomio2);
+                    lblSimplificar.setText(polinomio1.toString());
+
+                } catch (ValoresDiferentesException ex) {
+                    Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+
+        btnMultiplicarPolinomios.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    polinomio1.multiplicarPolinomios(polinomio2);
+                    lblSimplificar.setText(polinomio1.toString());
+                } catch (ValoresDiferentesException ex) {
+                    Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        });
         super.add(pnlAbajo, BorderLayout.PAGE_END);
 
         //***************************************
         super.setVisible(true);
     }
 
+    public String simpli() {
+        polinomio1.ordenarPorExponente();
+        polinomio1.simplificar();
+        return polinomio1.toString();
+    }
+
+    public void Agregar() {
+        if ((txtCoeficiente.getText() != null) && (!txtCoeficiente.getText().equals(""))) {
+            if ((txtExponente.getText() != null) && (!txtExponente.getText().equals(""))) {
+                try {
+                    polinomio1.agregarMonomio(new Monomio(txtCoeficiente.getText(), txtExponente.getText()));
+                    txtCoeficiente.setText("");
+                    txtExponente.setText("");
+                } catch (ValoresDiferentesException ex) {
+                    Component frame = null;
+                    JOptionPane.showMessageDialog(frame,
+                            "Caracter no numerico.",
+                            "ERROR",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                Component frame = null;
+                JOptionPane.showMessageDialog(frame,
+                        "Caja de texto vacia.",
+                        "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame,
+                    "Caja de texto vacia.",
+                    "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
 }

@@ -115,7 +115,8 @@ public class Lista {
         
     }
     
-    public void dividirPolinomios() {
+    public void dividirPolinomios(Lista lista) {
+        Lista nueva = new Lista();
         
     }
 
