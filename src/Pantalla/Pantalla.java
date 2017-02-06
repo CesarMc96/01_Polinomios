@@ -48,6 +48,8 @@ public class Pantalla extends JFrame {
     private final JPanel pnlEnmedioC;
     private final JLabel lblSimplificar;
     private final JLabel lblSoluciondeX;
+    private final Lista polinomio1;
+    private final Lista polinomio2;
 
     public Pantalla() {
         super.setSize(700, 500);
@@ -67,8 +69,8 @@ public class Pantalla extends JFrame {
         txtExponente = new JTextField(2);
         btnAgregar = new JButton("Agregar");
 
-        Lista polinomio1 = new Lista();
-        Lista polinomio2 = new Lista();
+        polinomio1 = new Lista();
+        polinomio2 = new Lista();
         
         btnAgregar.addActionListener(new ActionListener() {
             @Override
