@@ -65,24 +65,7 @@ public class Lista {
         nueva.ordenarPorExponente();
         nueva.simplificar();
 
-        Nodo aux3 = nueva.inicio;
-
-        while (aux3 != null) {
-            Monomio n = aux3.getMonomio();
-
-            Nodo nuevo = new Nodo(n);
-
-            inicio = nuevo;
-
-            Nodo aux5 = inicio;
-
-            while (aux5.getSiguiente() != null) {
-                aux5 = aux5.getSiguiente();
-            }
-            aux5.setSiguiente(nuevo);
-
-            aux3 = aux3.getSiguiente();
-        }
+        inicio = nueva.inicio;
     }
 
     public void restarPolinomios(Lista lista) throws ValoresDiferentesException {
@@ -105,7 +88,35 @@ public class Lista {
 
         nueva.ordenarPorExponente();
         nueva.simplificar();
-        nueva.recorrerLista();
+
+        inicio = nueva.inicio;
+    }
+
+    public void multiplicarPolinomios(Lista lista) throws ValoresDiferentesException {
+        Lista nueva = new Lista();
+        Nodo aux = inicio;
+        Nodo aux2;
+
+        while (aux != null) {
+            aux2 = lista.inicio;
+            while (aux2 != null) {
+                int coe = Integer.parseInt(aux.getMonomio().getCoeficiente()) * Integer.parseInt(aux2.getMonomio().getCoeficiente());
+                int exp = Integer.parseInt(aux.getMonomio().getExponente()) + Integer.parseInt(aux2.getMonomio().getExponente());
+                Monomio m = new Monomio(String.valueOf(coe),String.valueOf(exp));
+                nueva.agregarMonomio(m);
+
+                aux2 = aux2.getSiguiente();
+            }
+            aux = aux.getSiguiente();
+        }
+        
+        nueva.simplificar();
+        inicio = nueva.inicio;
+        
+    }
+    
+    public void dividirPolinomios() {
+        
     }
 
     public void ordenarPorExponente() {
@@ -147,4 +158,9 @@ public class Lista {
         return contador;
     }
 
+    @Override
+    public String toString() {
+        return inicio.toString();
+    }
+    
 }

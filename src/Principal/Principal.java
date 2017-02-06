@@ -22,6 +22,8 @@ public class Principal {
         l2.agregarMonomio(new Monomio("2", "1"));
         l2.agregarMonomio(new Monomio("-5", "1"));
         l2.agregarMonomio(new Monomio("-12", "2"));
+        l2.ordenarPorExponente();
+        l2.simplificar();
         
         System.out.println("Lista 1");
         l.recorrerLista();
@@ -38,9 +40,16 @@ public class Principal {
         l.sumarPolinomios(l2);
         l.recorrerLista();
         System.out.println("**************");
-        //System.out.println("Resta de listas");
-//l.restarPolinomios(l2);
-
+        System.out.println("Resta de Listas");
+        l.restarPolinomios(l2);
+        l.recorrerLista();
+        System.out.println("**************");
+        System.out.println("Multiplicacion de Listas");
+        l.multiplicarPolinomios(l2);
+        l.recorrerLista();
+        System.out.println("**************");
+        System.out.println("Division de Listas");
+        
         //Pantalla p = new Pantalla();
     }
 }

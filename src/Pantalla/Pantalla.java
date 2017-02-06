@@ -210,6 +210,7 @@ public class Pantalla extends JFrame {
                 polinomio1.ordenarPorExponente();
                 polinomio1.simplificar();
                 polinomio1.recorrerLista();
+                lblSimplificar.setText(polinomio1.toString());
             }
         });
 
