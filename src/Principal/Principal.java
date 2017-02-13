@@ -46,6 +46,7 @@ public class Principal {
 //        System.out.println("**************");
 //        System.out.println("Multiplicacion de Listas");
 //        l.multiplicarPolinomios(l2);
+//        l.simplificar();
 //        l.recorrerLista();
 //        System.out.println("**************");
 //        System.out.println("Division de Listas");

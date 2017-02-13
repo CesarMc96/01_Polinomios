@@ -3,7 +3,6 @@ package Pantalla;
 import Excepciones.ValoresDiferentesException;
 import Objetos.Lista;
 import Objetos.Monomio;
-import Objetos.Nodo;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -78,7 +77,35 @@ public class Pantalla extends JFrame {
         btnAgregar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                Agregar();
+                if ((txtCoeficiente.getText() != null) && (!txtCoeficiente.getText().equals(""))) {
+                    if ((txtExponente.getText() != null) && (!txtExponente.getText().equals(""))) {
+                        try {
+                            String coeficiente = txtCoeficiente.getText();
+                            String exponente = txtExponente.getText();
+                            polinomio1.agregarMonomio(new Monomio(coeficiente, exponente));
+                            txtCoeficiente.setText("");
+                            txtExponente.setText("");
+                        } catch (ValoresDiferentesException ex) {
+                            Component frame = null;
+                            JOptionPane.showMessageDialog(frame,
+                                    "Caracter no numerico.",
+                                    "ERROR",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else {
+                        Component frame = null;
+                        JOptionPane.showMessageDialog(frame,
+                                "Caja de texto vacia.",
+                                "ERROR",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    Component frame = null;
+                    JOptionPane.showMessageDialog(frame,
+                            "Caja de texto vacia.",
+                            "ERROR",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
 
         });
@@ -116,7 +143,9 @@ public class Pantalla extends JFrame {
                 if ((txtCoeficiente2.getText() != null) && (!txtCoeficiente2.getText().equals(""))) {
                     if ((txtExponente2.getText() != null) && (!txtExponente2.getText().equals(""))) {
                         try {
-                            polinomio2.agregarMonomio(new Monomio(txtCoeficiente2.getText(), txtExponente2.getText()));
+                            String coeficiente2 = txtCoeficiente2.getText();
+                            String exponente2 = txtExponente2.getText();
+                            polinomio2.agregarMonomio(new Monomio(coeficiente2, exponente2));
                             txtCoeficiente2.setText("");
                             txtExponente2.setText("");
                         } catch (ValoresDiferentesException ex) {
@@ -152,8 +181,10 @@ public class Pantalla extends JFrame {
         pnlEnmedioB.add(btnAgregar2);
         pnlEnmedioC = new JPanel();
         lblSimplificar = new JLabel();
+        lblSimplificar.setBackground(Color.yellow);
         lblSoluciondeX = new JLabel();
         pnlEnmedioC.add(lblSimplificar);
+        pnlEnmedio.setBackground(Color.white);
         pnlEnmedioA.setBackground(Color.white);
         pnlEnmedioB.setBackground(Color.white);
         pnlEnmedioB.setBackground(Color.white);
@@ -181,7 +212,9 @@ public class Pantalla extends JFrame {
         btnResolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                System.out.println("Lista 1");
                 polinomio1.recorrerLista();
+                System.out.println("Lista 2");
                 polinomio2.recorrerLista();
             }
         });
@@ -267,34 +300,4 @@ public class Pantalla extends JFrame {
         return polinomio1.toString();
     }
 
-    public void Agregar() {
-        if ((txtCoeficiente.getText() != null) && (!txtCoeficiente.getText().equals(""))) {
-            if ((txtExponente.getText() != null) && (!txtExponente.getText().equals(""))) {
-                try {
-                    polinomio1.agregarMonomio(new Monomio(txtCoeficiente.getText(), txtExponente.getText()));
-                    txtCoeficiente.setText("");
-                    txtExponente.setText("");
-                } catch (ValoresDiferentesException ex) {
-                    Component frame = null;
-                    JOptionPane.showMessageDialog(frame,
-                            "Caracter no numerico.",
-                            "ERROR",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                Component frame = null;
-                JOptionPane.showMessageDialog(frame,
-                        "Caja de texto vacia.",
-                        "ERROR",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            Component frame = null;
-            JOptionPane.showMessageDialog(frame,
-                    "Caja de texto vacia.",
-                    "ERROR",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-
-    }
 }

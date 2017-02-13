@@ -82,7 +82,8 @@ public class Lista {
         while (aux2 != null) {
             Monomio n = aux2.getMonomio();
             Integer coeficiente = Integer.parseInt(n.getCoeficiente());
-            nueva.agregarMonomio(new Monomio(("" + -coeficiente), n.getExponente()));
+            Integer c = -coeficiente;
+            nueva.agregarMonomio(new Monomio((String.valueOf(c)), n.getExponente()));
             aux2 = aux2.getSiguiente();
         }
 
@@ -104,13 +105,11 @@ public class Lista {
                 int exp = Integer.parseInt(aux.getMonomio().getExponente()) + Integer.parseInt(aux2.getMonomio().getExponente());
                 Monomio m = new Monomio(String.valueOf(coe),String.valueOf(exp));
                 nueva.agregarMonomio(m);
-
                 aux2 = aux2.getSiguiente();
             }
             aux = aux.getSiguiente();
         }
         
-        nueva.simplificar();
         inicio = nueva.inicio;
         
     }
